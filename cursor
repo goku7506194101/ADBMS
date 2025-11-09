@@ -1,0 +1,68 @@
+CREATE TABLE employee (
+  emp_id NUMBER PRIMARY KEY,
+  emp_name varchar2(50),
+  department varchar2(30),
+  salary NUMBER(10,2)
+);
+
+desc employee;
+
+INSERT INTO employee VALUES(101, 'Ravi Sharma', 'HR', 25000);
+INSERT INTO employee VALUES(102, 'Asha Mehta', 'IT', 45000);
+INSERT INTO employee VALUES(103, 'John Dsouza', 'Finance', 15000);
+INSERT INTO employee VALUES(104, 'Neha Patel', 'IT', 55000);
+INSERT INTO employee VALUES(105, 'Advait Pavaskar', 'HR', 30000);
+
+SELECT * FROM employee;
+
+BEGIN
+  FOR r IN (
+    SELECT emp_id, emp_name, department, salary
+    FROM employee
+    WHERE salary > 20000
+    ORDER BY salary DESC
+  ) LOOP
+    DBMS_OUTPUT.PUT_LINE(
+      'Emp_ID: ' || r.emp_id || 
+      '  Name: ' || r.emp_name || 
+      '  Dept: ' || r.department || 
+      '  Salary: ' || r.salary
+    );
+  END LOOP;
+END;
+
+DECLARE
+ CURSOR dept_cur IS
+   SELECT department, COUNT(*) AS total FROM employee GROUP BY department;
+
+ v_dept employee.department%TYPE;
+ v_total NUMBER;
+
+BEGIN
+ OPEN dept_cur;
+ LOOP
+   FETCH dept_cur INTO v_dept, v_total;
+   EXIT WHEN dept_cur%NOTFOUND;
+   DBMS_OUTPUT.PUT_LINE(
+      'Department: ' || v_dept || 
+      '| Total Employees: ' || v_total
+    );
+   END LOOP;
+   CLOSE dept_cur;
+END;
+
+DECLARE
+  CURSOR name_cur IS
+    SELECT emp_name FROM employee WHERE emp_name LIKE 'N%';
+
+  v_name employee.emp_name%TYPE;
+
+BEGIN
+  OPEN name_cur;
+  LOOP
+    FETCH name_cur INTO v_name;
+    EXIT WHEN name_cur%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' ||v_name);
+  END LOOP;
+  CLOSE name_cur;
+END;
