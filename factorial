@@ -1,0 +1,9 @@
+DECLARE
+  num INTEGER := 4;
+  factorial INTEGER := 1;
+BEGIN
+  FOR i IN 1..num LOOP
+    factorial := factorial * i;
+  END LOOP;
+  DBMS_OUTPUT.PUT_LINE('The Factorial of ' ||  num || ' is ' ||  factorial);
+END;
