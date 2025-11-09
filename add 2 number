@@ -1,0 +1,10 @@
+DECLARE
+  x number(5);
+  y number(5);
+  z number(7);
+BEGIN
+  x:=10;
+  y:=20;
+  z:=x+y;
+  dbms_output.put_line('z:=' || z);
+END;
